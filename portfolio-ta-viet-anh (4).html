@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Tạ Việt Anh</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --text: #111;
+  --muted: #666;
+  --border: #e0ddd8;
+  --ink: #0a0a0a;
+  --sidebar-w: 270px;
+  --header-h: 56px;
+  --trans: 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* ── LAYOUT ── */
+.layout { display: flex; height: 100vh; overflow: hidden; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.sidebar-brand {
+  padding: 30px 28px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem;
+  color: #fff;
+  margin-bottom: 14px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  letter-spacing: 0.02em;
+}
+
+.sidebar-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  margin-bottom: 3px;
+}
+
+.sidebar-sub {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
+}
+
+.sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; }
+
+.nav-section-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  padding: 14px 28px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 28px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.2s, background 0.2s;
+  position: relative;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.04); }
+.nav-item:hover .nav-dot { background: rgba(255,255,255,0.35); }
+
+.nav-item.active { color: #fff; background: rgba(255,255,255,0.07); }
+.nav-item.active .nav-dot { background: #fff; transform: scale(1.4); }
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 7px; bottom: 7px;
+  width: 3px;
+  background: #fff;
+  border-radius: 0 2px 2px 0;
+}
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.05em;
+}
+
+.sidebar-footer {
+  padding: 16px 28px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.2);
+  line-height: 1.5;
+}
+
+/* ── MAIN ── */
+.main { flex: 1; overflow: hidden; position: relative; background: var(--bg); }
+
+.topbar {
+  height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 40px;
+  gap: 10px;
+  position: relative; z-index: 5;
+}
+
+.topbar-crumb {
+  font-size: 12px; color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.topbar-crumb .sep { color: #ccc; }
+.topbar-page { font-size: 13px; font-weight: 600; color: var(--text); }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.topbar-tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 11px;
+  font-size: 11px; font-weight: 600;
+  color: var(--muted); letter-spacing: 0.04em;
+}
+
+/* ── PAGES WRAP ── */
+.pages-wrap {
+  height: calc(100vh - var(--header-h));
+  position: relative; overflow: hidden;
+}
+
+/* ── PAGE ── */
+.page {
+  position: absolute; inset: 0;
+  overflow-y: auto;
+  padding: 44px 52px 80px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--trans), transform var(--trans);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.page.active {
+  opacity: 1; transform: translateY(0); pointer-events: all;
+}
+.page.exit { opacity: 0; transform: translateY(-18px); }
+
+/* Stagger children */
+.page.active > * {
+  animation: fadeUp 0.5s cubic-bezier(0.76,0,0.24,1) both;
+}
+.page.active > *:nth-child(1) { animation-delay: 0.05s; }
+.page.active > *:nth-child(2) { animation-delay: 0.12s; }
+.page.active > *:nth-child(3) { animation-delay: 0.18s; }
+.page.active > *:nth-child(4) { animation-delay: 0.24s; }
+.page.active > *:nth-child(5) { animation-delay: 0.30s; }
+.page.active > *:nth-child(6) { animation-delay: 0.35s; }
+.page.active > *:nth-child(7) { animation-delay: 0.40s; }
+.page.active > *:nth-child(8) { animation-delay: 0.45s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── COMPONENTS ── */
+
+.page-heading { margin-bottom: 32px; }
+.page-eyebrow {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.page-heading h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.3rem; font-weight: 400;
+  color: var(--ink); line-height: 1.2;
+}
+.page-heading p {
+  margin-top: 10px; font-size: 14.5px;
+  color: var(--muted); max-width: 560px;
+}
+
+hr.div {
+  border: none; border-top: 1px solid var(--border); margin: 28px 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 26px;
+  margin-bottom: 14px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.06); border-color: #ccc; }
+
+.card-eyebrow {
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.card h3 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.card p { font-size: 14px; color: var(--muted); }
+.card ul { list-style: none; padding: 0; margin-top: 6px; }
+.card ul li {
+  padding-left: 16px; position: relative;
+  margin-bottom: 4px; font-size: 13.5px; color: var(--muted);
+}
+.card ul li::before { content: '–'; position: absolute; left: 0; color: #bbb; }
+
+/* INFO GRID */
+.info-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 14px;
+}
+.info-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.info-item .ii-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #aaa; margin-bottom: 4px;
+}
+.info-item .ii-val {
+  font-size: 14px; font-weight: 600; color: var(--ink);
+}
+
+/* SKILL BARS */
+.skill-row { margin-bottom: 12px; }
+.skill-top { display: flex; justify-content: space-between; margin-bottom: 5px; }
+.skill-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.skill-pct { font-size: 12px; font-weight: 700; color: var(--muted); }
+.skill-track { height: 5px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.skill-bar { height: 100%; background: var(--ink); border-radius: 4px; width: 0; transition: width 1.1s cubic-bezier(0.76,0,0.24,1); }
+
+/* GOAL CHIPS */
+.goal-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chip {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12.5px; font-weight: 500;
+  color: var(--muted);
+  background: var(--surface);
+}
+
+/* ── ASSIGNMENT CARDS ── */
+.bt-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.bt-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); border-color: #ccc; }
+
+.bt-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px;
+  cursor: pointer; user-select: none;
+}
+
+.bt-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px; flex-shrink: 0;
+}
+
+.bt-info { flex: 1; min-width: 0; }
+.bt-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.bt-sub { font-size: 12px; color: var(--muted); }
+
+.bt-status {
+  font-size: 10.5px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--muted); background: var(--bg);
+  white-space: nowrap; flex-shrink: 0;
+}
+.bt-status.done { background: #f0fdf4; border-color: #86efac; color: #15803d; }
+
+.bt-arrow {
+  color: #bbb; font-size: 11px; flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.76,0,0.24,1);
+}
+.bt-card.open .bt-arrow { transform: rotate(180deg); }
+
+.bt-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.76,0,0.24,1);
+}
+.bt-card.open .bt-body { max-height: 400px; }
+
+.bt-inner {
+  border-top: 1px solid var(--border);
+  padding: 18px 20px 20px;
+}
+
+.bt-desc { font-size: 13.5px; color: var(--muted); margin-bottom: 16px; line-height: 1.65; }
+
+/* PDF LINK AREA */
+.pdf-area {
+  border: 1.5px dashed var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg);
+  transition: border-color 0.2s, background 0.2s;
+}
+.pdf-area:hover { border-color: #aaa; background: #f0eeea; }
+
+.pdf-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: #fee2e2; color: #dc2626;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+
+.pdf-info { flex: 1; }
+.pdf-label { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.pdf-link-wrap { display: flex; align-items: center; gap: 8px; }
+
+.pdf-link-input {
+  flex: 1;
+  border: none; background: transparent;
+  font-size: 13.5px; font-weight: 500;
+  color: var(--ink);
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+}
+.pdf-link-input::placeholder { color: #bbb; font-weight: 400; }
+.pdf-link-input:focus { color: #2563eb; }
+
+.pdf-open-btn {
+  font-size: 11px; font-weight: 700;
+  color: var(--muted);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 10px;
+  cursor: pointer; text-decoration: none;
+  white-space: nowrap; flex-shrink: 0;
+  transition: background 0.15s;
+  display: none;
+}
+.pdf-open-btn:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pdf-open-btn.visible { display: block; }
+
+/* SUMMARY PAGE */
+.summary-area {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 26px;
+  margin-bottom: 14px;
+}
+.summary-area .sa-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+.summary-area textarea {
+  width: 100%; border: none; background: transparent;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 14px; color: var(--text);
+  resize: none; outline: none; line-height: 1.7;
+  min-height: 80px;
+}
+.summary-area textarea::placeholder { color: #ccc; }
+
+/* NOTICE */
+.notice {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-left: 4px solid var(--ink);
+  border-radius: 10px;
+  padding: 18px 22px; margin-bottom: 14px;
+}
+.notice .n-title { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 8px; }
+.notice p, .notice li { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+.notice ul { list-style: none; padding: 0; margin-top: 6px; }
+.notice ul li { padding-left: 18px; position: relative; margin-bottom: 5px; }
+.notice ul li::before { content: '→'; position: absolute; left: 0; color: #bbb; }
+
+/* SCROLLBAR */
+.page::-webkit-scrollbar { width: 4px; }
+.page::-webkit-scrollbar-track { background: transparent; }
+.page::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+
+/* MOBILE */
+.hamburger {
+  display: none; background: none; border: none;
+  cursor: pointer; padding: 8px; color: var(--text); font-size: 20px;
+}
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 99;
+}
+.overlay.on { display: block; }
+
+@media (max-width: 720px) {
+  .hamburger { display: block; }
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.76,0,0.24,1);
+    z-index: 100;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .page { padding: 24px 18px 60px; }
+  .topbar { padding: 0 16px; }
+  .info-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="avatar">TVA</div>
+      <div class="sidebar-name">Tạ Việt Anh</div>
+      <div class="sidebar-sub">ĐH Công Nghệ · 2026</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Portfolio</div>
+      <button class="nav-item active" data-page="gioi-thieu" onclick="navigate(this)">
+        <span class="nav-dot"></span>
+        <span>Giới thiệu</span>
+        <span class="nav-badge">01</span>
+      </button>
+
+      <div class="nav-section-label">Bài tập thành phần</div>
+      <button class="nav-item" data-page="bai-tap-1" onclick="navigate(this)">
+        <span class="nav-dot"></span>
+        <span>BT1 – Tệp tin &amp; Thư mục</span>
+        <span class="nav-badge">02</span>
+      </button>
+      <button class="nav-item" data-page="bai-tap-2" onclick="navigate(this)">
+        <span class="nav-dot"></span>
+        <span>BT2 – Tìm kiếm thông tin</span>
+        <span class="nav-badge">03</span>
+      </button>
+      <button class="nav-item" data-page="bai-tap-3" onclick="navigate(this)">
+        <span class="nav-dot"></span>
+        <span>BT3 – Viết Prompt AI</span>
+        <span class="nav-badge">04</span>
+      </button>
+      <button class="nav-item" data-page="bai-tap-4" onclick="navigate(this)">
+        <span class="nav-dot"></span>
+        <span>BT4 – Hợp tác trực tuyến</span>
+        <span class="nav-badge">05</span>
+      </button>
+      <button class="nav-item" data-page="bai-tap-5" onclick="navigate(this)">
+        <span class="nav-dot"></span>
+        <span>BT5 – Sáng tạo nội dung AI</span>
+        <span class="nav-badge">06</span>
+      </button>
+      <button class="nav-item" data-page="bai-tap-6" onclick="navigate(this)">
+        <span class="nav-dot"></span>
+        <span>BT6 – AI có trách nhiệm</span>
+        <span class="nav-badge">07</span>
+      </button>
+
+      <div class="nav-section-label">Kết thúc</div>
+      <button class="nav-item" data-page="tong-ket" onclick="navigate(this)">
+        <span class="nav-dot"></span>
+        <span>Tổng kết</span>
+        <span class="nav-badge">08</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      Nhập môn Công nghệ số &amp; AI<br>
+      Digital Portfolio — 2026
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-crumb">
+        <span>Tạ Việt Anh</span>
+        <span class="sep">›</span>
+        <span class="topbar-page" id="topbar-page">Giới thiệu</span>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-tag">ĐH Công Nghệ</span>
+        <span class="topbar-tag" id="topbar-num">01</span>
+      </div>
+    </div>
+
+    <div class="pages-wrap">
+
+      <!-- ═══════════════════════════════════════
+           PAGE 1 — GIỚI THIỆU
+      ═══════════════════════════════════════ -->
+      <div class="page active" id="page-gioi-thieu">
+        <div class="page-heading">
+          <div class="page-eyebrow">Portfolio cá nhân · 2026</div>
+          <h1>Xin chào, tôi là<br><em>Tạ Việt Anh</em></h1>
+          <p>Sinh viên Trường Đại Học Công Nghệ. Portfolio này tổng hợp các kỹ năng số tôi đã tích lũy qua môn Nhập môn Công nghệ số &amp; Ứng dụng Trí tuệ nhân tạo.</p>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="ii-label">Họ và tên</div>
+            <div class="ii-val">Tạ Việt Anh</div>
+          </div>
+          <div class="info-item">
+            <div class="ii-label">Trường</div>
+            <div class="ii-val">ĐH Công Nghệ</div>
+          </div>
+          <div class="info-item">
+            <div class="ii-label">Ngành học</div>
+            <div class="ii-val">Kỹ thuật máy tính</div>
+          </div>
+          <div class="info-item">
+            <div class="ii-label">Mã sinh viên</div>
+            <div class="ii-val">25020463</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Giới thiệu bản thân</div>
+          <p>Em hiện đang là sinh viên năm 1 của Trường đại học Công Nghệ(UET),em có sở thích tìm tòi nghiên cứu các bài báo nghiên cứu và các tài liệu phục vụ việc học tập.Học phần này giúp em biết thêm nhiều công cụ phục vụ đam mê học tập và nghiên cứu của mình.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Mục tiêu học tập</div>
+          <p>Biết ứng dụng AI trong học tập và nghiên cứu nhưng vẫn đảm bảo liêm chính học thuật.</p>
+          <p>Sáng tạo nội dụng dựa trên những ý tưởng của AI cung cấp.</p>
+          <p>Tìm kiếm tài liệu nghiên cứu từ các bài báo nổi tiếng,uy tín.....</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Mục tiêu Portfolio này</div>
+          <div class="goal-chips">
+            <span class="chip">🎯 Thể hiện các kỹ năng số đã học</span>
+            <span class="chip">📁 Lưu trữ sản phẩm cá nhân</span>
+            <span class="chip">🤖 Ứng dụng AI có trách nhiệm</span>
+            <span class="chip">📊 Ghi lại hành trình học tập</span>
+            <span class="chip">🌐 Dễ dàng chia sẻ với người khác</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Kỹ năng hình thành qua môn học</div>
+          <div style="margin-top:12px">
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Quản lý tệp tin &amp; thư mục</span><span class="skill-pct">95%</span></div>
+              <div class="skill-track"><div class="skill-bar" data-w="95"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Tìm kiếm &amp; đánh giá thông tin</span><span class="skill-pct">100%</span></div>
+              <div class="skill-track"><div class="skill-bar" data-w="100"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Viết Prompt &amp; sử dụng AI</span><span class="skill-pct">97%</span></div>
+              <div class="skill-track"><div class="skill-bar" data-w="97"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Hợp tác số &amp; làm việc nhóm</span><span class="skill-pct">98%</span></div>
+              <div class="skill-track"><div class="skill-bar" data-w="98"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Sáng tạo nội dung số</span><span class="skill-pct">100%</span></div>
+              <div class="skill-track"><div class="skill-bar" data-w="100"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PAGE 2 — BÀI TẬP 1
+      ═══════════════════════════════════════ -->
+      <div class="page" id="page-bai-tap-1">
+        <div class="page-heading">
+          <div class="page-eyebrow">Bài tập 1 · Chương 1.4</div>
+          <h1>Tệp tin &amp; Thư mục</h1>
+          <p>Giao bài với tệp tin và thư mục — Thiết lập cấu trúc tổ chức thông tin cá nhân.</p>
+        </div>
+        <hr class="div">
+
+        <div class="card">
+          <div class="card-eyebrow">Mục tiêu bài tập</div>
+          <p>Xây dựng cấu trúc thư mục tối ưu và hệ thống quy tắc đặt tên tệp khoa học, giúp quản lý tài liệu học tập hiệu quả.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Bản tóm tắt dự án</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/1OmOfnSnSbWvPjGYHGIRIxcz1QP6oAf7E/view?usp=drive_link" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📋</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Tóm tắt / PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Tóm tắt dự án — Bài tập 1</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Sản phẩm &amp; Minh chứng</div>
+
+          <a class="pdf-area" href="https://drive.google.com/file/d/1RAbdNEOaUMVwYNJlHWHAVYLSR8ora2_D/view" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📄</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Sản phẩm / Báo cáo PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Bài tập 1 — Tệp tin &amp; Thư mục</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Điều tôi học được</div>
+          <p>Trước bài tập này, tôi thường đặt tên tệp tùy tiện như "baitap_final_final2.docx" và không có hệ thống thư mục rõ ràng. Sau khi thực hành, tôi nhận ra rằng một quy tắc đặt tên nhất quán theo định dạng <strong>YYYY-MM-DD_MoTaNgan</strong> giúp tìm kiếm nhanh hơn rất nhiều và tránh nhầm lẫn giữa các phiên bản.</p>
+          <p style="margin-top:10px;">Điều quan trọng hơn tôi rút ra được là tư duy tổ chức thông tin phân cấp — chia thư mục theo môn học, rồi theo loại tài liệu (bài giảng, bài tập, tài liệu tham khảo) — giúp não bộ xử lý thông tin có cấu trúc hơn, không chỉ trên máy tính mà cả trong cách tôi sắp xếp công việc học tập hằng ngày.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PAGE 3 — BÀI TẬP 2
+      ═══════════════════════════════════════ -->
+      <div class="page" id="page-bai-tap-2">
+        <div class="page-heading">
+          <div class="page-eyebrow">Bài tập 2 · Chương 2.4</div>
+          <h1>Tìm kiếm &amp; Đánh giá thông tin</h1>
+          <p>Tìm kiếm học thuật với toán tử nâng cao và đánh giá độ tin cậy của nguồn tin.</p>
+        </div>
+        <hr class="div">
+
+        <div class="card">
+          <div class="card-eyebrow">Mục tiêu bài tập</div>
+          <p>Sử dụng thành thạo các toán tử tìm kiếm nâng cao (AND, OR, NOT, "…", site:) và xây dựng bảng tiêu chí đánh giá nguồn tin học thuật.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Bản tóm tắt dự án</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/1bVUBJR3qv_lMnQ-_MlxonAzDTFFn4Uzs/view?usp=drive_link" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📋</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Tóm tắt / PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Tóm tắt dự án — Bài tập 2</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Sản phẩm &amp; Minh chứng</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/1pLCXr0PZ004-3NLBHGR8EldTrDthLES9/view" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📄</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Sản phẩm / Báo cáo PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Bài tập 2 — Tìm kiếm &amp; Đánh giá thông tin</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Điều tôi học được</div>
+          <p>Bài tập này thay đổi hoàn toàn cách tôi tìm kiếm thông tin. Trước đây tôi chỉ gõ từ khóa đơn lẻ vào Google và chọn kết quả đầu tiên. Sau khi học cách dùng toán tử nâng cao như <strong>AND, OR, "dấu ngoặc kép", site:</strong> trên Google Scholar, tôi tìm được những bài báo học thuật chính xác và có chất lượng cao hơn nhiều.</p>
+          <p style="margin-top:10px;">Tôi cũng học được cách đánh giá độ tin cậy của nguồn tin dựa trên các tiêu chí như tác giả, tổ chức xuất bản, ngày cập nhật và mục đích của tài liệu. Kỹ năng này đặc biệt quan trọng trong thời đại thông tin nhiễu loạn — biết phân biệt nguồn uy tín với nguồn kém chất lượng là nền tảng của tư duy học thuật trung thực.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PAGE 4 — BÀI TẬP 3
+      ═══════════════════════════════════════ -->
+      <div class="page" id="page-bai-tap-3">
+        <div class="page-heading">
+          <div class="page-eyebrow">Bài tập 3 · Chương 3.4</div>
+          <h1>Viết Prompt hiệu quả</h1>
+          <p>So sánh Prompt ban đầu và Prompt cải tiến — Tối ưu hóa kết quả đầu ra từ AI.</p>
+        </div>
+        <hr class="div">
+
+        <div class="card">
+          <div class="card-eyebrow">Mục tiêu bài tập</div>
+          <p>Nắm vững kỹ thuật viết Prompt chất lượng cao: xác định ngữ cảnh, vai trò, yêu cầu cụ thể và định dạng đầu ra mong muốn.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Bản tóm tắt dự án</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/1onTlFPzOX4eN5gRfidYGVo1jijGCYvOM/view?usp=drive_link" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📋</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Tóm tắt / PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Tóm tắt dự án — Bài tập 3</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Sản phẩm &amp; Minh chứng</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/1IK4oswJgdncGJE476DO2ErVgS1MjRqZP/view" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📄</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Sản phẩm / Báo cáo PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Bài tập 3 — Viết Prompt hiệu quả</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Điều tôi học được</div>
+          <p>Bài tập này giúp tôi hiểu ra một nguyên tắc cốt lõi: <strong>chất lượng đầu ra của AI phụ thuộc trực tiếp vào chất lượng câu lệnh đầu vào</strong>. Khi tôi viết prompt mơ hồ, AI trả lời chung chung và không có ích. Khi tôi chỉ định rõ vai trò, ngữ cảnh, yêu cầu cụ thể và định dạng mong muốn, kết quả khác biệt hoàn toàn.</p>
+          <p style="margin-top:10px;">Điều thú vị tôi nhận ra là kỹ năng viết prompt thực chất là kỹ năng tư duy rõ ràng — bạn phải biết mình cần gì, cần đến mức độ nào và muốn trình bày theo cách nào trước khi AI có thể giúp bạn. Đây là kỹ năng tôi sẽ tiếp tục rèn luyện vì nó ngày càng quan trọng trong môi trường làm việc có AI.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PAGE 5 — BÀI TẬP 4
+      ═══════════════════════════════════════ -->
+      <div class="page" id="page-bai-tap-4">
+        <div class="page-heading">
+          <div class="page-eyebrow">Bài tập 4 · Chương 5.4</div>
+          <h1>Hợp tác trực tuyến</h1>
+          <p>Sử dụng công cụ quản lý dự án nhóm và phối hợp làm việc trong môi trường số.</p>
+        </div>
+        <hr class="div">
+
+        <div class="card">
+          <div class="card-eyebrow">Mục tiêu bài tập</div>
+          <p>Sử dụng thành thạo ít nhất một công cụ quản lý dự án trực tuyến (Trello, Notion, Google Workspace…) và thể hiện khả năng phối hợp nhóm hiệu quả.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Bản tóm tắt dự án</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/10FJF_dJrKQZLUnhIaa4bYQ-hHePiwncV/view?usp=drive_link" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📋</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Tóm tắt / PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Tóm tắt dự án — Bài tập 4</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Sản phẩm &amp; Minh chứng</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/1Uh_LP4bHwVu43O867pQ8_fw0c3HtTgZG/view" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📄</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Sản phẩm / Báo cáo PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Bài tập 4 — Hợp tác trực tuyến</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Điều tôi học được</div>
+          <p>Qua bài tập này, tôi học được rằng hợp tác nhóm hiệu quả không chỉ phụ thuộc vào thiện chí của các thành viên mà còn phụ thuộc rất nhiều vào <strong>hệ thống công cụ và quy trình làm việc rõ ràng</strong>. Khi nhóm có một nền tảng chung để theo dõi tiến độ, mọi người ít bị lạc nhịp hơn và dễ hỗ trợ nhau hơn.</p>
+          <p style="margin-top:10px;">Tôi cũng học được cách lựa chọn công cụ phù hợp với từng nhu cầu — không phải công cụ nào cũng làm được tất cả, và việc dùng đúng công cụ cho đúng mục đích giúp giảm đáng kể sự lộn xộn trong giao tiếp nhóm. Kỹ năng này sẽ rất hữu ích khi tôi bước vào môi trường làm việc chuyên nghiệp sau này.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PAGE 6 — BÀI TẬP 5
+      ═══════════════════════════════════════ -->
+      <div class="page" id="page-bai-tap-5">
+        <div class="page-heading">
+          <div class="page-eyebrow">Bài tập 5 · Chương 5.4</div>
+          <h1>Sáng tạo nội dung số với AI</h1>
+          <p>Tạo ra sản phẩm nội dung số hoàn thiện (hình ảnh, video, bài viết…) với sự hỗ trợ của AI.</p>
+        </div>
+        <hr class="div">
+
+        <div class="card">
+          <div class="card-eyebrow">Mục tiêu bài tập</div>
+          <p>Ứng dụng các công cụ AI sáng tạo để tạo ra nội dung số có giá trị, thể hiện tư duy sáng tạo và khả năng phối hợp giữa con người và AI.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Sản phẩm tạo ra</div>
+          <p>Dự án là một báo cáo về việc sử dụng kết hợp Claude AI (nội dung), Stable Diffusion (hình ảnh) và Canva AI (thiết kế) để tạo ra infographic du lịch Hà Nội 3 ngày 2 đêm cho sinh viên.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Sản phẩm &amp; Minh chứng</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/140pW5DcYgUwG4Md4akEChZQ_0n21IxQr/view" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">🎨</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Sản phẩm / Link nội dung</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Bài tập 5 — Sáng tạo nội dung số với AI</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Điều tôi học được</div>
+          <p>Bài tập này phá vỡ quan niệm ban đầu của tôi rằng AI có thể "làm thay" con người trong sáng tạo. Thực tế khi thực hiện dự án infographic, tôi nhận ra <strong>AI chỉ tốt khi người dùng biết rõ mình muốn gì</strong> — ý tưởng, cấu trúc và thẩm mỹ vẫn phải xuất phát từ con người, còn AI là người thực thi và mở rộng ý tưởng đó.</p>
+          <p style="margin-top:10px;">Tôi cũng học được cách phối hợp nhiều công cụ AI khác nhau trong một quy trình sản xuất nội dung: dùng AI ngôn ngữ để xây dựng nội dung, AI hình ảnh để tạo minh họa, rồi công cụ thiết kế để hoàn thiện bố cục. Kỹ năng "điều phối" nhiều công cụ AI này là thứ tôi nghĩ sẽ trở nên rất có giá trị trong tương lai.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PAGE 7 — BÀI TẬP 6
+      ═══════════════════════════════════════ -->
+      <div class="page" id="page-bai-tap-6">
+        <div class="page-heading">
+          <div class="page-eyebrow">Bài tập 6 · Chương 6.4</div>
+          <h1>AI có trách nhiệm</h1>
+          <p>Sử dụng AI có trách nhiệm trong học tập và nghiên cứu — xây dựng nguyên tắc cá nhân.</p>
+        </div>
+        <hr class="div">
+
+        <div class="card">
+          <div class="card-eyebrow">Mục tiêu bài tập</div>
+          <p>Nghiên cứu và xây dựng bộ nguyên tắc cá nhân về sử dụng AI có đạo đức, trung thực và có trách nhiệm trong môi trường học thuật.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Nguyên tắc cá nhân của tôi</div>
+          <ul>
+            <li>Nguyên tắc 1: Luôn khai báo rõ khi sử dụng AI trong bài nộp</li>
+            <li>Nguyên tắc 2: Không dùng AI để làm thay hoàn toàn, chỉ hỗ trợ tư duy</li>
+            <li>Nguyên tắc 3: Kiểm chứng thông tin AI cung cấp trước khi sử dụng</li>
+            <li>Nguyên tắc 4: Tôn trọng quyền tác giả và không sao chép nội dung AI</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Sản phẩm &amp; Minh chứng</div>
+          <a class="pdf-area" href="https://drive.google.com/file/d/1DjMdzmcHioVxcBqfcLy249Y93w8EE3AQ/view" target="_blank" style="text-decoration:none;cursor:pointer;">
+            <div class="pdf-icon">📄</div>
+            <div class="pdf-info">
+              <div class="pdf-label">Sản phẩm / Báo cáo PDF</div>
+              <div class="pdf-link-wrap">
+                <span class="pdf-link-input" style="font-size:13.5px;font-weight:500;color:#2563eb;">Bài tập 6 — AI có trách nhiệm</span>
+                <span class="pdf-open-btn visible">Mở ↗</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-eyebrow">Điều tôi học được</div>
+          <p>Bài tập này là bài tập tôi cảm thấy cần thiết nhất trong toàn bộ môn học. Khi thực sự ngồi xuống suy nghĩ và viết ra bộ nguyên tắc cá nhân, tôi mới nhận ra mình đã từng sử dụng AI một cách thiếu suy xét — chấp nhận kết quả mà không kiểm chứng, không khai báo khi dùng AI trong bài nộp.</p>
+          <p style="margin-top:10px;">Điều quan trọng nhất tôi học được là: <strong>trách nhiệm của người dùng AI không mất đi chỉ vì AI làm thay</strong>. Nếu AI cho ra thông tin sai và tôi không kiểm tra, trách nhiệm học thuật vẫn thuộc về tôi. Xây dựng nguyên tắc cá nhân giúp tôi có một "la bàn đạo đức" rõ ràng hơn khi đối mặt với những tình huống mờ nhạt trong việc sử dụng AI về sau.</p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PAGE 8 — TỔNG KẾT
+      ═══════════════════════════════════════ -->
+      <div class="page" id="page-tong-ket">
+        <div class="page-heading">
+          <div class="page-eyebrow">Trang tổng kết · Portfolio 2026</div>
+          <h1>Tổng kết hành trình</h1>
+          <p>Nhìn lại toàn bộ quá trình thực hiện dự án Portfolio và những gì tôi đã học được.</p>
+        </div>
+        <hr class="div">
+
+        <div class="summary-area">
+          <div class="sa-label">Trải nghiệm &amp; Cảm nhận chung</div>
+          <p style="font-size:14px;color:var(--text);line-height:1.7;">Toàn bộ quá trình thực hiện Portfolio là một hành trình thú vị và đầy thử thách. Tôi có cơ hội tiếp cận nhiều công cụ AI khác nhau, từ ChatGPT, Claude đến Stable Diffusion và Canva AI. Điều thú vị nhất là khi thấy AI có thể hỗ trợ đắc lực trong từng bài tập nếu mình biết cách sử dụng. Khó khăn lớn nhất là học cách viết prompt hiệu quả và đánh giá chất lượng đầu ra của AI một cách có phê phán.</p>
+        </div>
+
+        <div class="summary-area">
+          <div class="sa-label">Kiến thức &amp; Kỹ năng quan trọng nhất đạt được</div>
+          <p style="font-size:14px;color:var(--text);line-height:1.7;">1. <strong>Kỹ năng viết Prompt AI</strong> — biết cách đặt câu hỏi rõ ràng, có ngữ cảnh để AI cho ra kết quả chính xác hơn.<br>2. <strong>Tư duy phê phán với AI</strong> — không tin tuyệt đối vào kết quả AI mà biết kiểm chứng thông tin.<br>3. <strong>Sử dụng AI sáng tạo</strong> — kết hợp nhiều công cụ AI để tạo ra sản phẩm nội dung số hoàn thiện.<br>4. <strong>Đạo đức sử dụng AI</strong> — hiểu rõ trách nhiệm của người dùng AI trong môi trường học thuật.<br>5. <strong>Hợp tác trực tuyến</strong> — sử dụng các nền tảng cộng tác hiệu quả trong làm việc nhóm.</p>
+        </div>
+
+        <div class="summary-area">
+          <div class="sa-label">Điều tôi tâm đắc nhất</div>
+          <p style="font-size:14px;color:var(--text);line-height:1.7;">Tôi tâm đắc nhất với Bài tập 3 — Viết Prompt AI. Đây là kỹ năng cốt lõi giúp tôi khai thác tối đa tiềm năng của AI. Khi hiểu cách giao tiếp với AI, tôi nhận ra rằng chất lượng câu hỏi quyết định chất lượng câu trả lời — một bài học không chỉ áp dụng cho AI mà còn cho cả cuộc sống.</p>
+        </div>
+
+        <div class="summary-area">
+          <div class="sa-label">Thách thức &amp; Cách vượt qua</div>
+          <p style="font-size:14px;color:var(--text);line-height:1.7;">Thách thức lớn nhất là làm quen với tốc độ phát triển nhanh của các công cụ AI — có công cụ tôi học xong thì đã có phiên bản mới. Tôi đã giải quyết bằng cách tập trung vào nguyên tắc cơ bản thay vì các tính năng cụ thể, và duy trì thói quen cập nhật thông tin thường xuyên qua các nguồn tin công nghệ uy tín.</p>
+        </div>
+      </div>
+
+    </div><!-- end pages-wrap -->
+  </div><!-- end main -->
+</div><!-- end layout -->
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<script>
+const pagesMeta = {
+  'gioi-thieu':  { title: 'Giới thiệu',             num: '01' },
+  'bai-tap-1':   { title: 'BT1 – Tệp tin & Thư mục', num: '02' },
+  'bai-tap-2':   { title: 'BT2 – Tìm kiếm thông tin', num: '03' },
+  'bai-tap-3':   { title: 'BT3 – Viết Prompt AI',    num: '04' },
+  'bai-tap-4':   { title: 'BT4 – Hợp tác trực tuyến', num: '05' },
+  'bai-tap-5':   { title: 'BT5 – Sáng tạo nội dung',  num: '06' },
+  'bai-tap-6':   { title: 'BT6 – AI có trách nhiệm',  num: '07' },
+  'tong-ket':    { title: 'Tổng kết',                num: '08' },
+};
+
+let current = 'gioi-thieu';
+
+function navigate(btn) {
+  const target = btn.dataset.page;
+  if (target === current) return;
+
+  // Exit
+  const oldPage = document.getElementById('page-' + current);
+  oldPage.classList.add('exit');
+  oldPage.classList.remove('active');
+  setTimeout(() => oldPage.classList.remove('exit'), 600);
+
+  // Nav highlight
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Topbar
+  document.getElementById('topbar-page').textContent = pagesMeta[target].title;
+  document.getElementById('topbar-num').textContent  = pagesMeta[target].num;
+
+  // Enter
+  setTimeout(() => {
+    const newPage = document.getElementById('page-' + target);
+    newPage.classList.add('active');
+    animateBars(newPage);
+    current = target;
+  }, 75);
+
+  if (window.innerWidth <= 720) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('on');
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('on');
+}
+
+function animateBars(page) {
+  page.querySelectorAll('.skill-bar').forEach((bar, i) => {
+    const w = bar.dataset.w;
+    if (!w) return;
+    bar.style.width = '0%';
+    setTimeout(() => bar.style.width = w + '%', 150 + i * 80);
+  });
+}
+
+// Handle PDF link input → show "Mở" button & embed PDF
+function handleLinkInput(input) {
+  const btn = input.parentElement.querySelector('.pdf-open-btn');
+  const val = input.value.trim();
+  let pdfUrl = val;
+  
+  // Convert Google Drive share link to embed link
+  if (val.includes('drive.google.com')) {
+    const match = val.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    if (match) {
+      pdfUrl = 'https://drive.google.com/file/d/' + match[1] + '/preview';
+    }
+  }
+  
+  if (val && (val.startsWith('http://') || val.startsWith('https://'))) {
+    btn.href = val;
+    btn.classList.add('visible');
+    btn.target = '_blank';
+    
+    // Show embedded PDF
+    const pdfArea = input.closest('.pdf-area');
+    let iframeContainer = pdfArea.querySelector('.pdf-iframe-container');
+    if (!iframeContainer) {
+      iframeContainer = document.createElement('div');
+      iframeContainer.className = 'pdf-iframe-container';
+      pdfArea.appendChild(iframeContainer);
+    }
+    iframeContainer.innerHTML = '<iframe src="' + pdfUrl + '" style="width:100%;height:600px;border:1px solid #ddd;border-radius:6px;margin-top:16px;"></iframe>';
+  } else {
+    btn.href = '#';
+    btn.classList.remove('visible');
+    const pdfArea = input.closest('.pdf-area');
+    const iframeContainer = pdfArea.querySelector('.pdf-iframe-container');
+    if (iframeContainer) iframeContainer.innerHTML = '';
+  }
+}
+
+// Init
+window.addEventListener('load', () => {
+  animateBars(document.getElementById('page-gioi-thieu'));
+});
+</script>
+</body>
+</html>
